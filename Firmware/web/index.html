@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PicoFanController</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<main>
+  <header>
+    <h1 id="device-name-display">PicoFanController</h1>
+    <div class="status">
+      <span>WiFi: <span id="wifi-status">…</span></span>
+      <span>RPM: <span id="rpm">—</span></span>
+    </div>
+  </header>
+
+  <section class="card">
+    <h2>Fan speed</h2>
+    <div class="big-value"><span id="current-speed">—</span><span class="unit">%</span></div>
+    <div class="controls">
+      <button data-action="down">−</button>
+      <input type="number" id="speed-input" min="0" max="100" step="1">
+      <button data-action="up">+</button>
+    </div>
+    <div class="controls">
+      <button data-action="set-speed">Set exact</button>
+      <button data-action="push">Predefined</button>
+      <button data-action="toggle-power" id="toggle-power">Turn fan on</button>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Settings</h2>
+
+    <label>Predefined speed (%)
+      <div class="controls">
+        <button class="nudge" data-field="predefined_speed" data-dir="-1">−</button>
+        <input type="number" id="predefined_speed" min="0" max="100" step="1">
+        <button class="nudge" data-field="predefined_speed" data-dir="1">+</button>
+      </div>
+    </label>
+
+    <label>Boost speed (%)
+      <div class="controls">
+        <button class="nudge" data-field="boost_speed" data-dir="-1">−</button>
+        <input type="number" id="boost_speed" min="0" max="100" step="1">
+        <button class="nudge" data-field="boost_speed" data-dir="1">+</button>
+      </div>
+    </label>
+
+    <label>Minimum speed (%)
+      <div class="controls">
+        <button class="nudge" data-field="min_speed" data-dir="-1">−</button>
+        <input type="number" id="min_speed" min="0" max="100" step="1">
+        <button class="nudge" data-field="min_speed" data-dir="1">+</button>
+      </div>
+    </label>
+
+    <label>Step size per tick (%)
+      <div class="controls">
+        <button class="nudge" data-field="step" data-dir="-1">−</button>
+        <input type="number" id="step" min="1" max="50" step="1">
+        <button class="nudge" data-field="step" data-dir="1">+</button>
+      </div>
+    </label>
+
+    <label>LED brightness (%)
+      <div class="controls">
+        <button class="nudge" data-field="led_brightness" data-dir="-5">−</button>
+        <input type="number" id="led_brightness" min="10" max="100" step="1">
+        <button class="nudge" data-field="led_brightness" data-dir="5">+</button>
+      </div>
+    </label>
+
+    <label>Hold threshold for boost (ms)
+      <div class="controls">
+        <button class="nudge" data-field="hold_threshold_ms" data-dir="-100">−</button>
+        <input type="number" id="hold_threshold_ms" min="200" max="5000" step="100">
+        <button class="nudge" data-field="hold_threshold_ms" data-dir="100">+</button>
+      </div>
+    </label>
+
+    <label>Tach pulses per revolution
+      <div class="controls">
+        <button class="nudge" data-field="tach_pulses_per_rev" data-dir="-1">−</button>
+        <input type="number" id="tach_pulses_per_rev" min="1" max="8" step="1">
+        <button class="nudge" data-field="tach_pulses_per_rev" data-dir="1">+</button>
+      </div>
+    </label>
+
+    <label>PWM polarity
+      <select id="pwm_polarity">
+        <option value="high">Active HIGH (Intel 4-wire, default)</option>
+        <option value="low">Active LOW</option>
+      </select>
+    </label>
+
+    <label>
+      <input type="checkbox" id="encoder_invert">
+      Invert encoder direction
+    </label>
+
+    <label>Device name
+      <input type="text" id="device_name" maxlength="32">
+    </label>
+
+    <div class="controls">
+      <button id="save-settings">Save settings</button>
+      <button id="discard-settings" style="display:none">Discard</button>
+    </div>
+    <p id="save-msg" class="msg"></p>
+  </section>
+
+  <section class="card help">
+    <h2>Physical controls</h2>
+    <dl>
+      <dt>Rotate encoder</dt>
+      <dd>± <em>step</em>% per detent (snapped to multiples of <em>step</em>).</dd>
+
+      <dt>Short press</dt>
+      <dd>Toggle between current speed ↔ predefined speed.</dd>
+
+      <dt>Double click</dt>
+      <dd>Toggle fan power on/off (cuts fan ground via MOSFET; speed is preserved).</dd>
+
+      <dt>Press and hold (≥ <em>hold_threshold_ms</em>)</dt>
+      <dd>Boost to <em>boost_speed</em> while held; restore on release.</dd>
+
+      <dt>Hold at power-on</dt>
+      <dd>Force WiFi Access Point (setup) mode.</dd>
+    </dl>
+  </section>
+</main>
+<script src="/script.js"></script>
+</body>
+</html>

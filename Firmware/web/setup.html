@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PicoFanController — Setup</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<main>
+  <header>
+    <h1>PicoFanController — WiFi Setup</h1>
+  </header>
+  <section class="card">
+    <p>Enter your WiFi credentials. The device will reboot and try to connect.</p>
+    <label>SSID
+      <input type="text" id="ssid" autocomplete="off">
+    </label>
+    <label>Password
+      <input type="password" id="password" autocomplete="off">
+    </label>
+    <div class="controls">
+      <button id="submit-wifi">Save and connect</button>
+    </div>
+    <p id="msg" class="msg"></p>
+  </section>
+</main>
+<script>
+document.getElementById("submit-wifi").addEventListener("click", async () => {
+  const ssid = document.getElementById("ssid").value.trim();
+  const password = document.getElementById("password").value;
+  const msg = document.getElementById("msg");
+  if (!ssid) { msg.textContent = "SSID is required."; return; }
+  msg.textContent = "Testing connection...";
+  try {
+    const r = await fetch("/fancontrol/wifi", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({ssid, password})
+    });
+    const j = await r.json();
+    msg.textContent = j.ok ? "Connected. Rebooting..." : "Connection failed. Check credentials.";
+  } catch (e) {
+    msg.textContent = "Request failed: " + e;
+  }
+});
+</script>
+</body>
+</html>
