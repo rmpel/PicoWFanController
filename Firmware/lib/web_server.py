@@ -2,7 +2,7 @@ import json
 import socket
 import time
 
-from config import WEB_PORT
+from config import WEB_PORT, LED_COUNT
 
 
 def _parse_query(qs):
@@ -91,6 +91,7 @@ class WebServer:
             "speed": self._fan.get_duty(),
             "rpm": self._fan.get_rpm(),
             "fan_enabled": self._fan.is_enabled(),
+            "led_count": LED_COUNT,
             "settings": self._storage.public(),
             "wifi": self._wifi.get_status(),
         }
@@ -115,6 +116,30 @@ class WebServer:
 
         if path == "/script.js":
             content = self._read_file("/web/script.js")
+            if content is None:
+                self._send(client, "404 Not Found", "text/plain", "Not found")
+            else:
+                self._send(client, "200 OK", "application/javascript", content)
+            return
+
+        if path == "/common.js":
+            content = self._read_file("/web/common.js")
+            if content is None:
+                self._send(client, "404 Not Found", "text/plain", "Not found")
+            else:
+                self._send(client, "200 OK", "application/javascript", content)
+            return
+
+        if path in ("/advanced", "/advanced.html"):
+            content = self._read_file("/web/advanced.html")
+            if content is None:
+                self._send(client, "404 Not Found", "text/plain", "Not found")
+            else:
+                self._send(client, "200 OK", "text/html", content)
+            return
+
+        if path == "/advanced.js":
+            content = self._read_file("/web/advanced.js")
             if content is None:
                 self._send(client, "404 Not Found", "text/plain", "Not found")
             else:
@@ -185,7 +210,8 @@ class WebServer:
                 return
             allowed = {"step", "boost_speed", "min_speed", "predefined_speed",
                        "pwm_polarity", "tach_pulses_per_rev", "hold_threshold_ms",
-                       "device_name", "encoder_invert", "led_brightness"}
+                       "device_name", "encoder_invert", "led_brightness",
+                       "led_invert", "led_correction"}
             updates = {k: v for k, v in data.items() if k in allowed}
             self._storage.set_many(updates)
             if "pwm_polarity" in updates:

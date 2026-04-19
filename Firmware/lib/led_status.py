@@ -41,8 +41,9 @@ PATTERNS = {
 
 
 class LedStatus:
-    def __init__(self):
+    def __init__(self, mirror=None):
         self._led = _init_onboard_led()
+        self._mirror = mirror
         self._pattern = []
         self._idx = 0
         self._next_at = 0
@@ -50,13 +51,20 @@ class LedStatus:
         self._done = True
         self.set_pattern("off")
 
+    def set_mirror(self, mirror):
+        self._mirror = mirror
+
     def _apply(self, on):
-        if self._led is None:
-            return
-        try:
-            self._led.value(1 if on else 0)
-        except Exception:
-            pass
+        if self._led is not None:
+            try:
+                self._led.value(1 if on else 0)
+            except Exception:
+                pass
+        if self._mirror is not None:
+            try:
+                self._mirror(on)
+            except Exception:
+                pass
 
     def set_pattern(self, name, once=False):
         p = PATTERNS.get(name)

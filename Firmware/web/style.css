@@ -89,3 +89,24 @@ label > input, label > select { margin-top: .25rem; }
   .help dl { grid-template-columns: 1fr; gap: .1rem .5rem; }
   .help dd { margin-bottom: .5rem; }
 }
+.advanced-link { margin: 1rem 0 0; font-size: .9rem; text-align: right; }
+.advanced-link a { color: #8ab4f8; text-decoration: none; }
+.advanced-link a:hover { text-decoration: underline; }
+.hint { font-size: .8rem; color: #a1a7b3; margin: .25rem 0 .75rem; }
+.hint code { background: #0f1115; padding: 0 .3rem; border-radius: 3px; font-size: .85em; }
+.led-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(5.5rem, 1fr));
+  gap: .5rem;
+  margin: .5rem 0 1rem;
+}
+.led-cell {
+  display: flex;
+  flex-direction: column;
+  gap: .15rem;
+  margin: 0;
+}
+.led-cell span { font-size: .75rem; color: #a1a7b3; }
+.led-cell input[type="number"] { padding: .35rem .5rem; }
+.status a { color: #8ab4f8; text-decoration: none; }
+.status a:hover { text-decoration: underline; }

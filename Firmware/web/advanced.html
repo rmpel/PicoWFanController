@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PicoFanController — Advanced</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<main>
+  <header>
+    <h1 id="device-name-display">PicoFanController</h1>
+    <div class="status">
+      <span>WiFi: <span id="wifi-status">…</span></span>
+      <span><a href="/">← Back</a></span>
+    </div>
+  </header>
+
+  <section class="card">
+    <h2>Advanced settings</h2>
+
+    <label>Device name
+      <input type="text" id="device_name" maxlength="32">
+    </label>
+
+    <label>PWM polarity
+      <select id="pwm_polarity">
+        <option value="high">Active HIGH (Intel 4-wire, default)</option>
+        <option value="low">Active LOW</option>
+      </select>
+    </label>
+
+    <label>
+      <input type="checkbox" id="encoder_invert">
+      Invert encoder direction
+    </label>
+
+    <label>
+      <input type="checkbox" id="led_invert">
+      Invert LED bar direction
+    </label>
+
+    <div class="controls">
+      <button id="save-settings">Save settings</button>
+      <button id="discard-settings" style="display:none">Discard</button>
+    </div>
+    <p id="save-msg" class="msg"></p>
+  </section>
+
+  <section class="card">
+    <h2>Per-LED brightness correction (%)</h2>
+    <p class="hint">Per-LED gain applied on top of the global LED brightness. 100 = no change. Lower to dim over-bright LEDs; raise to compensate for dim ones (e.g. green LEDs with the same resistor).</p>
+    <p class="hint">Index 0 is the first pin in <code>LED_ARRAY</code> — the physical order, not affected by the invert toggle.</p>
+    <div id="led-correction-grid" class="led-grid"></div>
+    <div class="controls">
+      <button id="correction-reset">Reset all to 100</button>
+    </div>
+  </section>
+</main>
+<script src="/common.js"></script>
+<script src="/advanced.js"></script>
+</body>
+</html>

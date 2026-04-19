@@ -15,7 +15,10 @@ from config import (
     DEFAULT_FAN_ENABLED,
     DEFAULT_PREDEFINED_ACTIVE,
     DEFAULT_LED_BRIGHTNESS,
+    DEFAULT_LED_INVERT,
+    DEFAULT_LED_CORRECTION_PCT,
     MIN_LED_BRIGHTNESS_PCT,
+    LED_COUNT,
 )
 
 
@@ -38,9 +41,11 @@ DEFAULTS = {
     "fan_enabled": DEFAULT_FAN_ENABLED,
     "predefined_active": DEFAULT_PREDEFINED_ACTIVE,
     "led_brightness": DEFAULT_LED_BRIGHTNESS,
+    "led_invert": DEFAULT_LED_INVERT,
+    "led_correction": [DEFAULT_LED_CORRECTION_PCT] * LED_COUNT,
 }
 
-BOOL_KEYS = {"encoder_invert", "fan_enabled", "predefined_active"}
+BOOL_KEYS = {"encoder_invert", "fan_enabled", "predefined_active", "led_invert"}
 
 INT_KEYS = {
     "current_speed",
@@ -55,7 +60,30 @@ INT_KEYS = {
 }
 
 
+def _coerce_correction(value):
+    if not isinstance(value, list):
+        value = []
+    out = []
+    for v in value:
+        try:
+            iv = int(v)
+        except (TypeError, ValueError):
+            iv = DEFAULT_LED_CORRECTION_PCT
+        if iv < 0:
+            iv = 0
+        if iv > 100:
+            iv = 100
+        out.append(iv)
+    if len(out) < LED_COUNT:
+        out.extend([DEFAULT_LED_CORRECTION_PCT] * (LED_COUNT - len(out)))
+    elif len(out) > LED_COUNT:
+        out = out[:LED_COUNT]
+    return out
+
+
 def _coerce(key, value):
+    if key == "led_correction":
+        return _coerce_correction(value)
     if key in INT_KEYS:
         try:
             v = int(value)
@@ -80,6 +108,7 @@ def _coerce(key, value):
 class Storage:
     def __init__(self):
         self._data = dict(DEFAULTS)
+        self._data["led_correction"] = list(DEFAULTS["led_correction"])
         self._load()
 
     def _load(self):

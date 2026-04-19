@@ -23,6 +23,7 @@ class App:
         self.led = LedStatus()
         self.fan = FanController(self.storage)
         self.led_bar = LedBar(self.storage, self.fan)
+        self.led.set_mirror(self.led_bar.set_status)
         self.encoder = RotaryEncoder(lambda: self.storage.get("encoder_invert"))
         self.button = Button(lambda: self.storage.get("hold_threshold_ms"))
         self.wifi = WiFiManager(self.storage, self.led)
@@ -45,6 +46,8 @@ class App:
             _thread.start_new_thread(self._web_loop, ())
             self._web_thread_started = True
 
+        self.led.set_mirror(None)
+        self.led_bar.release_status()
         self.led.set_pattern("off")
 
     def _web_loop(self):

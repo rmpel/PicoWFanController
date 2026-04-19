@@ -90,27 +90,13 @@
       </div>
     </label>
 
-    <label>PWM polarity
-      <select id="pwm_polarity">
-        <option value="high">Active HIGH (Intel 4-wire, default)</option>
-        <option value="low">Active LOW</option>
-      </select>
-    </label>
-
-    <label>
-      <input type="checkbox" id="encoder_invert">
-      Invert encoder direction
-    </label>
-
-    <label>Device name
-      <input type="text" id="device_name" maxlength="32">
-    </label>
-
     <div class="controls">
       <button id="save-settings">Save settings</button>
       <button id="discard-settings" style="display:none">Discard</button>
     </div>
     <p id="save-msg" class="msg"></p>
+
+    <p class="advanced-link"><a href="/advanced">Advanced settings →</a></p>
   </section>
 
   <section class="card help">
@@ -133,6 +119,7 @@
     </dl>
   </section>
 </main>
+<script src="/common.js"></script>
 <script src="/script.js"></script>
 </body>
 </html>
