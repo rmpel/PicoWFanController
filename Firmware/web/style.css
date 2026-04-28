@@ -110,3 +110,11 @@ label > input, label > select { margin-top: .25rem; }
 .led-cell input[type="number"] { padding: .35rem .5rem; }
 .status a { color: #8ab4f8; text-decoration: none; }
 .status a:hover { text-decoration: underline; }
+table.files { width: 100%; border-collapse: collapse; font-size: .85rem; }
+table.files th, table.files td {
+  text-align: left; padding: .35rem .4rem; border-bottom: 1px solid #262a32; vertical-align: middle;
+}
+table.files th { color: #a1a7b3; font-weight: 500; font-size: .75rem; text-transform: uppercase; }
+table.files .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; word-break: break-all; }
+table.files td.sha { font-size: .7rem; color: #a1a7b3; }
+progress { height: 8px; }

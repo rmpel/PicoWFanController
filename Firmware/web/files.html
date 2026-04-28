@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PicoFanController — Files</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<main>
+  <header>
+    <h1 id="device-name-display">PicoFanController</h1>
+    <div class="status">
+      <span>WiFi: <span id="wifi-status">…</span></span>
+      <span><a href="/">← Back</a></span>
+    </div>
+  </header>
+
+  <section class="card">
+    <h2>Upload file</h2>
+    <p class="hint">Pick a local file and a target path on the device (e.g. <code>lib/fan_controller.py</code>). The file is hashed in your browser and on the device; the upload is rejected if they don't match. Existing files are replaced atomically.</p>
+    <label>Target path
+      <input type="text" id="target-path" placeholder="lib/foo.py">
+    </label>
+    <label>Local file
+      <input type="file" id="local-file">
+    </label>
+    <div class="controls">
+      <button id="upload-btn">Upload</button>
+      <button id="reboot-btn">Reboot device</button>
+    </div>
+    <p id="upload-msg" class="msg"></p>
+    <progress id="upload-progress" value="0" max="100" style="width:100%;display:none"></progress>
+  </section>
+
+  <section class="card">
+    <h2>Files on device</h2>
+    <p class="hint">Click <em>SHA</em> to compute on the device. Click <em>Delete</em> to remove. <code>/settings.json</code> is protected.</p>
+    <table id="file-table" class="files">
+      <thead>
+        <tr><th>Path</th><th>Size</th><th>SHA-256</th><th></th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </section>
+</main>
+<script src="/common.js"></script>
+<script src="/files.js"></script>
+</body>
+</html>
